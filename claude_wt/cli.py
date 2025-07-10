@@ -161,7 +161,7 @@ This directory must be added to .gitignore to prevent committing worktree data.
     )
 
     # Launch Claude
-    claude_path = shutil.which("claude") or "/Users/jlowin/.claude/local/claude"
+    claude_path = shutil.which("claude") or str(Path.home() / ".claude" / "local" / "claude")
     claude_cmd = [claude_path, "--add-dir", str(repo_root)]
     if query:
         claude_cmd.extend(["--", query])
@@ -224,7 +224,7 @@ def resume(branch_name: str):
         )
 
         # Launch Claude with --continue to resume conversation
-        claude_path = shutil.which("claude") or "/Users/jlowin/.claude/local/claude"
+        claude_path = shutil.which("claude") or str(Path.home() / ".claude" / "local" / "claude")
         claude_cmd = [claude_path, "--add-dir", str(repo_root), "--continue"]
         subprocess.run(claude_cmd, cwd=wt_path)
 
