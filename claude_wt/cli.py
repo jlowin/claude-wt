@@ -207,7 +207,11 @@ def resume(branch_name: str):
                     break
                 current_wt = {"path": line[9:]}
             elif line.startswith("branch "):
-                current_wt["branch"] = line[7:]
+                branch = line[7:]
+                # Remove refs/heads/ prefix if present (for compatibility with different git versions)
+                if branch.startswith("refs/heads/"):
+                    branch = branch[11:]
+                current_wt["branch"] = branch
 
         # Check the last worktree entry
         if current_wt and current_wt.get("branch") == full_branch_name:
@@ -335,7 +339,11 @@ def clean(
                                 worktrees.append(current_wt)
                             current_wt = {"path": line[9:]}
                         elif line.startswith("branch "):
-                            current_wt["branch"] = line[7:]
+                            branch = line[7:]
+                            # Remove refs/heads/ prefix if present (for compatibility with different git versions)
+                            if branch.startswith("refs/heads/"):
+                                branch = branch[11:]
+                            current_wt["branch"] = branch
                     if current_wt:
                         worktrees.append(current_wt)
 
@@ -453,7 +461,11 @@ def list():
                     worktrees.append(current_wt)
                 current_wt = {"path": line[9:]}  # Remove 'worktree ' prefix
             elif line.startswith("branch "):
-                current_wt["branch"] = line[7:]  # Remove 'branch ' prefix
+                branch = line[7:]  # Remove 'branch ' prefix
+                # Remove refs/heads/ prefix if present (for compatibility with different git versions)
+                if branch.startswith("refs/heads/"):
+                    branch = branch[11:]
+                current_wt["branch"] = branch
         if current_wt:
             worktrees.append(current_wt)
 
