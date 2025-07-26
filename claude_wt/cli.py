@@ -207,7 +207,7 @@ def resume(branch_name: str):
                     break
                 current_wt = {"path": line[9:]}
             elif line.startswith("branch "):
-                current_wt["branch"] = line[7:]
+                current_wt["branch"] = line[7:].removeprefix("refs/heads/")
 
         # Check the last worktree entry
         if current_wt and current_wt.get("branch") == full_branch_name:
@@ -335,7 +335,7 @@ def clean(
                                 worktrees.append(current_wt)
                             current_wt = {"path": line[9:]}
                         elif line.startswith("branch "):
-                            current_wt["branch"] = line[7:]
+                            current_wt["branch"] = line[7:].removeprefix("refs/heads/")
                     if current_wt:
                         worktrees.append(current_wt)
 
@@ -453,7 +453,7 @@ def list():
                     worktrees.append(current_wt)
                 current_wt = {"path": line[9:]}  # Remove 'worktree ' prefix
             elif line.startswith("branch "):
-                current_wt["branch"] = line[7:]  # Remove 'branch ' prefix
+                current_wt["branch"] = line[7:].removeprefix("refs/heads/")  # Remove 'branch refs/heads/' prefix
         if current_wt:
             worktrees.append(current_wt)
 
